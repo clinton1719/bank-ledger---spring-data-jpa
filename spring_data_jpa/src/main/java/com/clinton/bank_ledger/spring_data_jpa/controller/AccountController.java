@@ -1,6 +1,6 @@
 package com.clinton.bank_ledger.spring_data_jpa.controller;
 
-import com.clinton.bank_ledger.spring_data_jpa.model.Account;
+import com.clinton.bank_ledger.spring_data_jpa.dtos.AccountResponse;
 import com.clinton.bank_ledger.spring_data_jpa.service.AccountService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class AccountController {
   private final AccountService accountService;
 
   @GetMapping("/accounts")
-  public List<Account> getAccounts() {
+  public List<AccountResponse> getAccounts() {
     log.info("Requesting accounts");
     return accountService.getAllAccounts();
   }

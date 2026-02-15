@@ -1,8 +1,11 @@
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
+import { AccountComponent } from './components/AccountComponent';
+import type { Account } from './types/Account';
+import { Box } from '@mui/material';
 
 const App = () => {
-  const [accounts, setAccounts] = useState('');
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -10,7 +13,7 @@ const App = () => {
     fetch('/api/account/accounts')
       .then(response => response.text())
       .then(data => {
-        setAccounts(data);
+        setAccounts(JSON.parse(data));
         setLoading(false);
       })
       .catch(error => {
@@ -24,18 +27,53 @@ const App = () => {
   }
 
   return (
-    <>
-      <Typography variant="h1" className='text-center pt-5'>
-        Learning by breaking series - Spring Data JPA
+    <Box sx={{
+      py: 8,
+      px: 3,
+      mx: 'auto',
+      textAlign: 'center'
+    }}>
+      <Typography
+        variant="h3"
+        sx={{
+          mb: 4,
+          fontWeight: 700,
+          color: 'primary.main',
+          lineHeight: 1.2
+        }}
+      >
+        Learning by breaking series
       </Typography>
-      <Typography variant="h2" className='text-center p-5'>
-        Bank Ledger
+
+      <Typography
+        variant="h4"
+        sx={{
+          mb: 8,
+          fontWeight: 600,
+          color: 'primary.secondary',
+          letterSpacing: '-0.02em'
+        }}
+      >
+        Spring Data JPA • Bank Ledger
       </Typography>
-      <Typography variant="body1" className='text-center p-5'>
-        {accounts}
-      </Typography>
-    </>
-  )
+
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(5, 1fr)' },
+        gap: 3,
+        mx: 'auto'
+      }}>
+        {accounts.map((account: Account) => (
+          <AccountComponent
+            key={account.id}
+            accountName={account.accountName}
+            accountBalance={account.accountBalance}
+          />
+        ))}
+      </Box>
+    </Box>
+  );
+
 }
 
 export default App

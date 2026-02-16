@@ -2,7 +2,6 @@ package com.clinton.bank_ledger.spring_data_jpa.service;
 
 import com.clinton.bank_ledger.spring_data_jpa.dtos.AccountResponse;
 import com.clinton.bank_ledger.spring_data_jpa.mappers.AccountMapper;
-import com.clinton.bank_ledger.spring_data_jpa.model.Transaction;
 import com.clinton.bank_ledger.spring_data_jpa.repository.AccountRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class AccountService {
   public List<AccountResponse> getAllAccounts() {
     List<AccountResponse> accountResponseList =
         accountRepository.findAll().stream()
-            .map(accountMapper::toResponse)
+            .map(accountMapper::accountToAccountResponse)
             .toList();
     log.info("Fetched {} accounts", accountResponseList.size());
     return accountResponseList;
